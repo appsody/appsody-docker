@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
-docker build -t appsody/appsody-docker .
-docker push appsody/appsody-docker
+docker build -t $DOCKER_ORG/appsody-docker .
+docker push $DOCKER_ORG/appsody-docker
