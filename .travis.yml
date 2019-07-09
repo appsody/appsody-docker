@@ -5,8 +5,7 @@ services:
 - docker
 deploy:
   on:
-    branches:
-      only:
-        - master
+    branch: master
+    tags: true
   provider: script
   script: bash ./docker-build.sh
