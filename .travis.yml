@@ -4,5 +4,8 @@ os:
 services:
 - docker
 deploy:
+  on:
+    branch: master
+    tags: true
   provider: script
   script: bash ./docker-build.sh
