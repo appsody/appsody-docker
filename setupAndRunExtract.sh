@@ -29,18 +29,18 @@ else
   source="${source%\"}"
   source="${source#\"}"
 fi
-# Appending appsody-source
-  postfix="/appsody-source"
-  source=$source$postfix
+# Appending git-source - assumes this is called with an env var set
+  postfix=$gitsource
+  source=$source/$postfix
 export APPSODY_MOUNT_PROJECT=${source}
 echo APPSODY_MOUNT_PROJECT=${APPSODY_MOUNT_PROJECT}
 # Create the /extracted sub-dir
 mkdir /workspace/extracted
 # Run appsody extract -v from the source directory
-cd /workspace/appsody-source
+cd /workspace/$postfix
 ls -latr
 appsody extract -v
 # Copy the extracted contents to /workspace/extracted
-cp -rf /builder/home/.appsody/extract/appsody-source/* /workspace/extracted/
+cp -rf /builder/home/.appsody/extract/$postfix/* /workspace/extracted/
 ls -latr /workspace/extracted
 
