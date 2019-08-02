@@ -14,5 +14,5 @@ This asset uses the Ubuntu (Debian) installer package of the Appsody CLI, which 
 
 If significant changes to the `appsody extract` command are introduced by a CLI release, this asset should be rebuilt referencing a newer version of the CLI in `Dockerfile`.
 
-
 However, the [Tekton example](https://github.com/appsody/tekton-example)  relies on the Docker image that is created by the release process of this asset. Therefore, whenever this asset gets released, it is reasonable to expect that a new release of the Tekton example also gets initiated.
+
