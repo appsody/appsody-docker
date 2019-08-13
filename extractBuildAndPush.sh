@@ -14,6 +14,7 @@
 # 6. Push the image
 # 7. Delete the container, and the image.
 
+mkdir -p $context
 stack=`cat $context/../git-source/.appsody-config.yaml | awk -F' ' '{print $2}'`
 buildah pull $stack
 buildah from --name base-extract $stack
