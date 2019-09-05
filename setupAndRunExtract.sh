@@ -41,6 +41,5 @@ cd /workspace/$postfix
 ls -latr
 appsody extract -v
 # Copy the extracted contents to /workspace/extracted
-cp -rf /builder/home/.appsody/extract/$postfix/* /workspace/extracted/
+cp -rf /builder/home/.appsody/extract/$postfix/* /builder/home/.appsody/extract/$postfix/.[!.]* /workspace/extracted/
 ls -latr /workspace/extracted
-
