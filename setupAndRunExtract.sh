@@ -1,15 +1,18 @@
 #!/bin/bash
 set -e
 # inspecting the container to find the mounts
-containerid=`docker ps|grep appsody-docker|awk '{print $1}'`
+docker ps
+containerid=`docker ps|grep  k8s_step-build-push-step|awk '{print $1}'`
+echo Container ID: ${containerid}
 dockerinspect=`docker inspect ${containerid}`
 # checking the mounts to extract the workspace mount
 notdone=true
 found=false
 idx=0
 while [ "$notdone" = true ]; do
+  echo $idx
   dest=`echo ${dockerinspect}|jq --argjson index $idx '.[] | .Mounts[$index].Destination '`
-  echo $dest
+  echo Destination: $dest
   if [ "$dest" = "\"/workspace\"" ] ; then
      source=`echo ${dockerinspect}|jq --argjson index $idx '.[] | .Mounts[$index].Source '`
      found=true
@@ -43,3 +46,18 @@ appsody extract -v
 # Copy the extracted contents to /workspace/extracted
 cp -rf /builder/home/.appsody/extract/$postfix/* /builder/home/.appsody/extract/$postfix/.[!.]* /workspace/extracted/
 ls -latr /workspace/extracted
+echo "Running appsody operator install..."
+set +e
+errormessage=$( appsody operator install 2>&1 > /dev/null)
+
+if [ ! "$?" == 0 ]; then
+  echo Error message: $errormessage
+  if [[ "$errormessage" == *"An operator already exists"* ]]; then
+    echo "Operator already exists - continue processing..."
+  else
+    echo "Failed to install the Appsody operator"
+    exit 1
+  fi
+fi
+
+echo "Done!"
